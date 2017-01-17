@@ -1,0 +1,65 @@
+struct tComplex {
+	double Re;
+	double Im;
+} tComplex; 
+
+struct tParam {
+	double Radius; //Radius des Gebietes G
+	int imax;
+	char ftype;    //Julia-Menge oder Mandelbrot-Menge
+	double xmin, xmax, ymin, ymax;
+	int xpoints, ypoints;
+} tParam;
+
+int GetItera (tComplex Z, tComplex C, tParam Parameter){
+	int i=0;                                                      // Zahl der Iteration bei Verlassen von G, oder erreichen vom imax
+	double Distzi;
+	tComplex anfpkt;                                              //Startpunkt der Reihe hängt vom betrachteten Fraktaltyp ab. Bei Juliamenge ist Startpunkt z0, Bei Apfelmännchen c
+	
+	if(Parameter.ftype == "J")
+	{	anfpkt = Z;}
+	
+	if(Parameter.ftype == "M"){
+	{	anfptkt = C;}
+	
+	while ( i<Parameter.imax && Distzi <= Parameter.Radius)
+	{
+		Z = Summe(Quadrat(Z),C);                                        //Berechnung der Zi nach Z_(i+1)=(Z_i)^2 + C
+		Distzi = Abst(anfpkt,Z);
+		i++;
+	}
+	
+	return i;
+		
+}
+
+
+tComplex Summe(tComplex Z, tComplex W){
+	tComplex Sum;
+	Sum.Re = Z.Re + W.Re;
+	Sum.Im = Z.Im + W.Im;
+	
+	return Sum;
+}
+
+tComplex Produkt(tComplex Z, tComplex W){
+	tComplex Prod;
+	Prod.Re = Z.Re*W.Re - Z.Im*W.Im;
+	Prod.Im = Z.Re*W.Im + Z.Im*W.Re;
+	
+	return Prod;
+}
+
+tComplex Quadrat(tComplex Z){
+	tComplex Quad;
+	Quad = Produkt(Z,Z);
+	
+	return Quad;
+}
+
+double Abstand(tComplex Z, tComplex W){
+	double Abst;
+	Abst = sqrt((Z.Re-W.Re)^2+(Z.Im-W.Im)^2);
+	
+	return Abst;
+}
